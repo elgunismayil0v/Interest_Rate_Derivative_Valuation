@@ -1,5 +1,5 @@
-from Base import InterestRateModels
-from Interpolator import Interpolator
+from .Base import InterestRateModels
+from .Interpolator import Interpolator
 import numpy as np
 
 
@@ -10,14 +10,13 @@ class ZCB(InterestRateModels):
         self._interpolator = Interpolator(self._x, self._y)
         self._zcb_values = None
         
-    def Bond_Value(self):
+    def Bond_Value(self, t):
         """Calculate ZCB values for all time points in self._x"""
-        # Define the lambda function for ZCB calculation
-        zcb =  lambda t : np.exp(-self._interpolator.interpolation(t) * t)
-        
-        # Calculate ZCB values for each time point in self._x and store them
-        self._zcb_values = [zcb(t) for t in self._x]
     
+    # Compute discount factors for given time points
+        self._zcb_values = np.exp(-self._interpolator.interpolation(t) * t)
+        return self._zcb_values
+
     
     
     def ZCB_Values(self):

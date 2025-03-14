@@ -1,4 +1,4 @@
-from Base import InterestRateModels
+from .Base import InterestRateModels
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot  as plt
 import numpy as np
