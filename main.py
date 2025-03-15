@@ -3,6 +3,8 @@ from model.Hull_White import HullWhiteBase, HullWhiteBondPricing, HullWhiteStati
 from model.ZCB import ZCB
 from model.Interpolator import Interpolator
 from product.Swap import Swap, PayerSwap, ReceiverSwap
+from product.Fra import PayerFra_Analytical, ReceiverFra_Analytical
+from product.Caplet_Floorlet import Caplet_Black76, Floorlet_Black76
 
 # Define time points and corresponding rates
 time = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -21,16 +23,26 @@ print("Computed Zero-Coupon Bond values:")
 #print(x.ZCB_Values())  # Print computed bond prices
 t_1 = 1.0
 t = 0
-t_2 = 10
+t_2 = 3.0
 interval = 4
-N = 1.0 
+N = 1000.0 
 type = "PAYER"
-K = 0.1
+K = 0.025
+tau = 0.25
+sigma = 0.4
 
 a = ReceiverSwap(t_1, t_2, t, K,  N, interval, ZCB, time, rate)
 b = PayerSwap(t_1, t_2, t, K, N, interval, ZCB, time, rate)
+c = PayerFra_Analytical(t_1, t_2, K, N, ZCB, time, rate)
+d = ReceiverFra_Analytical(t_1, t_2, K, N, ZCB, time, rate)
+e = Caplet_Black76(N, tau, K, ZCB, sigma, t_1, time, rate)
+f = Floorlet_Black76(N, tau, K, ZCB, sigma, t_1, time, rate)
 print(a.product_value())
 print(b.product_value())
+print(c.product_value())
+print(d.product_value())
+print(e.product_value())
+print(f.product_value())
 
 
 

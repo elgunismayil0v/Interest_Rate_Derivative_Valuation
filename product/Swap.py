@@ -1,12 +1,18 @@
+from abc import abstractmethod
 from model.ZCB import ZCB
 from product.InterestRateProduct import InterestRateProduct
 import numpy as np
 from enum import Enum
 
-
-
-
 class Swap(InterestRateProduct):
+    @abstractmethod
+    def product_value(self):
+        pass
+    
+    
+
+
+class Swap_Analytical(Swap):
     def __init__(self, T1, T2, t, K, N, NoOfPay, P0T, x, y):
         self._T1 = T1
         self._T2 = T2
@@ -34,11 +40,11 @@ class Swap(InterestRateProduct):
     def product_value(self):
         pass
         
-class PayerSwap(Swap):
+class PayerSwap(Swap_Analytical):
     def product_value(self):
         return self._N * (self._P0T(self._T1) - self._P0T(self._T2) - self._K * self.discount_factor())
     
-class ReceiverSwap(Swap):
+class ReceiverSwap(Swap_Analytical):
     
     def product_value(self):
         return self._N * (self._K * self.discount_factor() - self._P0T(self._T1) + self._P0T(self._T2)) 
